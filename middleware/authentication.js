@@ -13,25 +13,6 @@ const secret = process.env.TOKEN_SECRET;
  * succesfull authentication the fasten the development process.
  */
 module.exports.authenticate = (req, res, next) => {
-  // console.log(req.headers);
-  // req.user = {
-  //   id: 1,
-  //   role: "admin",
-  //   StudyFieldId: null,
-  // };
-  // req.user = {
-  //   id: 3,
-  //   role: "professor",
-  //   StudyFieldId: 1,
-  // };
-  // req.user = {
-  //   id: 6,
-  //   role: "instructor",
-  //   StudyFieldId: 2,
-  // }
-  // next();
-  // return;
-  // console.log(req.headers);
   if (typeof req.headers["x-access-token"] === "undefined" || req.headers["x-access-token"] === null) {
     return res.status(401).json({
       message: "Please make sure your request has X-Access-Token header",
@@ -73,16 +54,6 @@ module.exports.authenticate = (req, res, next) => {
 
 module.exports.onlyAdmin = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
-    next();
-  } else {
-    res.status(401).send({
-      message: "User privilege check failed",
-    });
-  }
-};
-
-module.exports.onlyAdminAndPrintPerson = (req, res, next) => {
-  if (req.user && (req.user.role === "admin" || req.user.role === "print-person")) {
     next();
   } else {
     res.status(401).send({

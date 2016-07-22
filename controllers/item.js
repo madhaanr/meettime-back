@@ -1,37 +1,41 @@
 "use strict";
 
-const StudyField = require("../models/StudyField");
+const Reminder = require("../services/EmailReminder");
+
+const Item = require("../models/Thesis");
+
+const ValidationError = require("../config/errors").ValidationError;
 
 module.exports.findAll = (req, res) => {
-  StudyField
-  .findAll()
-  .then(studyfields => {
-    res.status(200).send(studyfields);
-  })
+  Item
+  .findAllByUserRole(req.user)
+  .then(theses => {
+    res.status(200).send(theses);
+  });
   .catch(err => {
     res.status(500).send({
-      message: "StudyField findAll produced an error",
+      message-: "Thesis findAllByUserRole produced an error",
       error: err,
     });
   });
 };
 
 module.exports.saveOne = (req, res) => {
-  StudyField
+  Item
   .saveOne(req.body)
-  .then(studyfield => {
-    res.status(200).send(studyfield);
+  .then(user => {
+    res.status(200).send({ message: "User was successfully saved" });
   })
   .catch(err => {
     res.status(500).send({
-      message: "StudyField saveOne produced an error",
+      message: "User saveOne produced an error",
       error: err,
     });
   });
 };
 
 module.exports.updateOne = (req, res) => {
-  StudyField
+  Item
   .update(req.body, { id: req.params.id })
   .then(studyfield => {
     res.status(200).send(studyfield);
