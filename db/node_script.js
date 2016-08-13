@@ -20,28 +20,69 @@ if (commands.length > 2) {
   const command = commands[2];
   // console.log(command);
   switch (command) {
-    case "create":
-      db_methods.createTables();
-      break;
-    case "drop":
-      db_methods.dropTables();
-      break;
+    // case "create":
+    //   db_methods.createTables()
+    //   .then(() => {
+    //     console.log("Tables created!");
+    //     process.exit();
+    //   })
+    //   break;
+    // case "drop":
+    //   db_methods.dropTables()
+    //   .then(() => {
+    //     console.log("Tables dropped!");
+    //     process.exit();
+    //   })
+    //   break;
     case "add":
-      db_methods.addTestData();
+      db_methods.addTestData()
+      .then(() => {
+        console.log("Data added!");
+        process.exit();
+      })
+      .catch(err => {
+        console.error("Adding test data to caused an error.")
+        console.error(err)
+        process.exit();
+      })
       break;
     case "destroy":
-      db_methods.destroyTables();
+      db_methods.destroyTables()
+      .then(() => {
+        console.log("Tables destroyed!");
+        process.exit();
+      })
+      .catch(err => {
+        console.error("Destroying tables caused an error.");
+        console.error(err);
+        process.exit();
+      });
       break;
     case "reset":
-      db_methods.resetTestData();
+      db_methods.resetTestData()
+      .then(() => {
+        console.log("Resetted the database with test data successfully!");
+        process.exit();
+      })
+      .catch(err => {
+        console.error("Resetting database caused an error.");
+        console.error(err);
+        process.exit();
+      });
       break;
-    case "init":
-      db_methods.dropAndCreateTables();
-      break;
+    // case "init":
+    //   db_methods.dropAndCreateTables();
+    //   break;
     case "dump":
       db_methods.dump()
       .then(data => {
         console.log(data);
+        process.exit();
+      })
+      .catch(err => {
+        console.error("Dumping data from database caused an error.");
+        console.error(err);
+        process.exit();
       });
       break;
     default:

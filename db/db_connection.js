@@ -1,23 +1,30 @@
 "use strict";
 
-const Sequelize = require("sequelize");
+let mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
 
-let seq;
-if (process.env.NODE_ENV === "production") {
-  seq = new Sequelize(process.env.DB_URL, {
-    dialectOptions: {
-      ssl: true,
-    },
-    logging: false,
-  });
-} else {
-  seq = new Sequelize("grappa", "", "", {
-    dialect: "sqlite",
-    storage: "db/dev-db.sqlite",
-    logging: false,
-  });
-}
+mongoose.connection.on('connected', function () {
+  console.log('Mongoose default connection open');
+});
 
-module.exports = {
-  sequelize: seq,
-};
+// If the connection throws an error
+mongoose.connection.on('error',function (err) {
+  console.log('Mongoose default connection error: ', err);
+});
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () {
+  console.log('Mongoose default connection disconnected');
+});
+
+// If the Node process ends, close the Mongoose connection
+process.on('SIGINT', function() {
+  mongoose.connection.close(function () {
+    console.log('Mongoose default connection disconnected through app termination');
+    process.exit(0);
+  });
+});
+
+mongoose.connect(process.env.DB_URL);
+
+module.exports = mongoose;

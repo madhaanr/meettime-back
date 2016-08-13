@@ -16,21 +16,3 @@ VError.prototype = Object.create(Error.prototype, {
 });
 
 module.exports.ValidationError = VError;
-
-// Error caused when requisite data is missing e.g. email drafts from database
-
-function PError() {
-  const temp = Error.apply(this, arguments);
-  temp.name = this.name = "PremiseError";
-  this.stack = temp.stack;
-  this.message = temp.message;
-}
-PError.prototype = Object.create(Error.prototype, {
-  constructor: {
-    value: PError,
-    writable: true,
-    configurable: true
-  }
-})
-
-module.exports.PremiseError = PError;

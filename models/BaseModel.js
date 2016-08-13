@@ -1,6 +1,6 @@
 "use strict";
 
-const Models = require("../db/tables").Models;
+const Models = require("../db/schemas");
 
 class BaseModel {
   constructor(modelname) {
@@ -14,16 +14,16 @@ class BaseModel {
     return this.Models[this.modelname].create(params);
   }
   findAll(params) {
-    return this.Models[this.modelname].findAll({ where: params });
+    return this.Models[this.modelname].find({});
   }
   findOne(params) {
-    return this.Models[this.modelname].findOne({ where: params });
+    return this.Models[this.modelname].findOne(params);
   }
-  update(values, params) {
-    return this.Models[this.modelname].update(values, { where: params });
+  update(values, id) {
+    return this.Models[this.modelname].findByIdAndUpdate(id, { $set: values });
   }
   delete(params) {
-    return this.Models[this.modelname].destroy({ where: params });
+    return this.Models[this.modelname].find(params).remove();
   }
 }
 

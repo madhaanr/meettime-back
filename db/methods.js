@@ -1,74 +1,75 @@
 "use strict";
 
-const tables = require("./tables");
-const models = tables.Models;
+const models = require("./schemas");
 
 module.exports.destroyTables = () => {
   return Promise.all(Object.keys(models).map(key => {
     if ({}.hasOwnProperty.call(models, key)) {
-      return models[key].destroy({ where: {} });
+      return models[key].remove();
     }
   }));
 };
 
-module.exports.createTables = () => {
-  return tables.syncForce();
-  // return tables.sync();
-};
+// module.exports.createTables = () => {
+//   return tables.syncForce();
+//   // return tables.sync();
+// };
 
 module.exports.dropTables = () => {
   return Promise.all(Object.keys(models).map(key => {
-    return models[key].drop({ cascade: true });
-  }));
+    if ({}.hasOwnProperty.call(models, key)) {
+      let mongoose = require("./db_connection");
+      // duh doesn't work :/
+      return mongoose.connection.db.dropDatabase();
+      // return mongoose.connection.collections["items"].drop();
+    }
+  }))
 };
 
 module.exports.addTestData = () => Promise.all([
   models.Item.create({
-    id: 1,
-    name: "Algorithmic Bioinformatics",
+    content: "Something something",
   }),
   models.Item.create({
-    id: 2,
-    name: "Algorithms, Data Analytics and Machine Learning",
+    content: "I'm a virus, press alt + f4 to stop me",
   }),
   models.User.create({
-    name: "Kjell Lemström",
+    firstname: "Admin",
+    lastname: "Jokunen",
+    email: "admin@asdf.asdf",
     passwordHash: "$2a$10$Fs0N7KD/xUH4NAfW2s1MoOh/yH3G7mAtGycMY5tMUvCGqiWWdaSue",
-    email: "ohtugrappa@gmail.com",
     role: "admin",
-    isActive: true,
-    ItemId: null,
   }),
-]);
+  models.User.create({
+    firstname: "Matti",
+    lastname: "Menninkäinen",
+    email: "user@asdf.asdf",
+    passwordHash: "$2a$10$Fs0N7KD/xUH4NAfW2s1MoOh/yH3G7mAtGycMY5tMUvCGqiWWdaSue",
+    role: "user",
+  }),
+])
 
 module.exports.dump = () => {
   return Promise.all(Object.keys(models).map(key => {
     if ({}.hasOwnProperty.call(models, key)) {
-      return models[key].findAll();
+      return models[key].find({});
     }
   }));
 };
 
-module.exports.dropAndCreateTables = () => {
-  return module.exports.createTables()
-  .then(() => module.exports.addTestData())
-  .then(() => {
-    console.log("Dropped and created models with test data succesfully!");
-  })
-  .catch((err) => {
-    console.log("dropAndCreateTables produced an error!");
-    console.log(err);
-  });
-};
+// module.exports.dropAndCreateTables = () => {
+//   return module.exports.createTables()
+//   .then(() => module.exports.addTestData())
+//   .then(() => {
+//     console.log("Dropped and created models with test data succesfully!");
+//   })
+//   .catch((err) => {
+//     console.log("dropAndCreateTables produced an error!");
+//     console.log(err);
+//   });
+// };
 
 module.exports.resetTestData = () => {
-  module.exports.destroyTables()
+  return module.exports.destroyTables()
   .then(() => module.exports.addTestData())
-  .then(() => {
-    console.log("Resetted the database with test data successfully!");
-  })
-  .catch(err => {
-    console.log("resetTestData produced an error!");
-    console.log(err);
-  });
 };

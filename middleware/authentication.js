@@ -9,22 +9,14 @@ const secret = process.env.TOKEN_SECRET;
  * Checks the request for the correct Headers and then decodes
  * the token and checks if everything matches out after which
  * it lets the user to access the controller's method.
- * NOTE: You can comment out the req.user -statements to hard-code
- * succesfull authentication the fasten the development process.
  */
 module.exports.authenticate = (req, res, next) => {
-  if (typeof req.headers["x-access-token"] === "undefined" || req.headers["x-access-token"] === null) {
-    return res.status(401).json({
+  if (!req.headers["x-access-token"]) {
+    return res.status(401).send({
       message: "Please make sure your request has X-Access-Token header",
     });
   }
-  if (typeof req.headers["x-key"] === "undefined" || req.headers["x-key"] === null) {
-    return res.status(401).send({
-      message: "Please make sure your request has X-Key header",
-    });
-  }
   const token = req.headers["x-access-token"];
-  const userid = parseInt(req.headers["x-key"]);
   let decoded;
   try {
     decoded = jwt.decode(token, secret);
@@ -35,13 +27,7 @@ module.exports.authenticate = (req, res, next) => {
       error: err.message,
     });
   }
-  // checks if userId is the same that the one who was created
-  // TODO should also check if token expired..
-  if (decoded.user.id !== userid) {
-    return res.status(401).send({
-      message: "User authentication failed",
-    });
-  } else if (decoded.created > decoded.expires) {
+  if (decoded.created > decoded.expires) {
     return res.status(401).send({
       message: "Token has expired",
     });

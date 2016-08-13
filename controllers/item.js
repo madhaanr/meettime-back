@@ -1,20 +1,19 @@
 "use strict";
 
-const Reminder = require("../services/EmailReminder");
-
-const Item = require("../models/Thesis");
+const Item = require("../models/Item");
 
 const ValidationError = require("../config/errors").ValidationError;
 
 module.exports.findAll = (req, res) => {
   Item
-  .findAllByUserRole(req.user)
-  .then(theses => {
-    res.status(200).send(theses);
-  });
+  .findAll()
+  .then(items => {
+    res.status(200).send(items);
+  })
   .catch(err => {
     res.status(500).send({
-      message-: "Thesis findAllByUserRole produced an error",
+      location: "Item findAll .catch other",
+      message: "Getting all Items caused an internal server error.",
       error: err,
     });
   });
@@ -23,12 +22,13 @@ module.exports.findAll = (req, res) => {
 module.exports.saveOne = (req, res) => {
   Item
   .saveOne(req.body)
-  .then(user => {
-    res.status(200).send({ message: "User was successfully saved" });
+  .then(item => {
+    res.status(200).send(item);
   })
   .catch(err => {
     res.status(500).send({
-      message: "User saveOne produced an error",
+      location: "Item saveOne .catch other",
+      message: "Saving Item caused an internal server error.",
       error: err,
     });
   });
@@ -37,12 +37,13 @@ module.exports.saveOne = (req, res) => {
 module.exports.updateOne = (req, res) => {
   Item
   .update(req.body, { id: req.params.id })
-  .then(studyfield => {
-    res.status(200).send(studyfield);
+  .then(item => {
+    res.status(200).send(item);
   })
   .catch(err => {
     res.status(500).send({
-      message: "StudyField updateOne produced an error",
+      location: "Item updateOne .catch other",
+      message: "Updating Item caused an internal server error.",
       error: err,
     });
   });
