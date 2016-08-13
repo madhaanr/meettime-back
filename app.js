@@ -1,8 +1,8 @@
 "use strict";
 
-if (process.env.NODE_ENV !== "travis") {
+// if (process.env.NODE_ENV !== "travis") {
   require("dotenv").config();  
-}
+// }
 const express = require("express");
 const busboy = require("connect-busboy");
 const bodyParser = require("body-parser");
