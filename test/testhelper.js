@@ -1,4 +1,6 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "travis") {
+  require("dotenv").config();  
+}
 
 const app = require("../app");
 
