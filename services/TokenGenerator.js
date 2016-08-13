@@ -25,3 +25,4 @@ class TokenGenerator {
 }
 
 module.exports = new TokenGenerator(process.env.TOKEN_SECRET);
+module.exports.class = TokenGenerator;
