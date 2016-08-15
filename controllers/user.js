@@ -45,30 +45,12 @@ module.exports.updateOne = (req, res) => {
     } else if (user.password && !passwordHelper.comparePassword(user.password, foundUser.passwordHash)) {
       throw new ValidationError("Wrong password.");
     }
-    let strippedUser = {};
+    const strippedUser = Object.assign({}, user);
     if (req.user.id.toString() === req.params.id) {
-      strippedUser = {
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-      }
+      delete strippedUser.role;
       if (user.newPassword && user.newPasswordConf) {
         strippedUser.passwordHash = passwordHelper.hashPassword(user.newPassword);
       }
-    } else {
-      strippedUser = user;
-      if ((strippedUser.role === "professor" || strippedUser.role === "instructor") && !strippedUser.StudyFieldId) {
-        throw new ValidationError("Professor or instructor must have a studyfield.");
-      } else if (strippedUser.role === "professor") {
-        return User.findStudyfieldsProfessor(strippedUser.StudyFieldId)
-          .then(prof => {
-            if (prof && prof.id !== strippedUser.id) {
-              throw new ValidationError("Studyfield already has professor.");
-            } else {
-              return User.update(strippedUser, { id: req.params.id });
-            }
-          })
-        }
     }
     return User.update(strippedUser, { id: req.params.id });
   })
@@ -106,7 +88,6 @@ module.exports.saveOne = (req, res) => {
     }
   })
   .then(foundUser => {
-    // console.log(foundUser)
     if (foundUser) {
       throw new ValidationError("User already exists with the same email.");
     } else {

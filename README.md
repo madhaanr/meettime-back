@@ -21,3 +21,5 @@ This is the backend version of the Angular bootstrap that I made. Something to g
 
 # Structure
 This app uses basic MVC with services as global helpers. Feel free to make changes and create better solutions. I was going to add option to use postgres but eh mayber later. Also sorry about the very sad test suite.
+
+Also I've made bit leaky error reporting to end-user (sends stack traces to everyone), but it shouldn't matter unless you want to use it in production.
