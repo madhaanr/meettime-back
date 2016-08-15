@@ -5,7 +5,7 @@ Simple Node.js bootstrap with Express and ES6 / ES2015. [Heroku deployment](http
 This is the backend version of the Angular bootstrap that I made. Something to guide you out when creating your backend and not sure how to do it. It's simple as the title says and it's mostly a recollection of things that I've learned and seen to be useful.
 
 # How to install
-1. Install Node.js and nvm if you don't have them by now. Newest versions suit very well. 4.-something if you want the production-stable version. Basically it should work if you write ```curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.4/install.sh | bash``` to your terminal.
+1. Install Node.js and nvm if you don't have them by now. Newest versions suit very well. 4.-something if you want the production-stable version. Basically it should work if you write ```curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.4/install.sh | bash``` to your terminal. Then ```nvm install 6.3.1``` and maybe ```nvm use 6.3.1```.
 2. Clone this repository and go to the root and enter ```npm i``` or ```npm install```.
 3. This app uses dotenv for storing environment variables, rename the ```.dev-env``` file in the root of this folder to ```.env``` and anytime you want to use Travis or Heroku remember to add your variables to their config. Or for your own server create your own production ```.env```.
 4. This app uses MongoDB as database so you need to either install MongoDB locally or use [mlab](https://mlab.com). I recommend mlab for its easy of use.
