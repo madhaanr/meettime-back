@@ -1,10 +1,10 @@
 {
-  "name": "my-app",
+  "name": "meettime-back",
   "version": "0.0.1",
-  "description": "simple bootstrap for node",
+  "description": "mini doodle clone",
   "main": "index.js",
   "engines": {
-    "node": "5.9.0"
+    "node": "6.3.1"
   },
   "scripts": {
     "lint": "eslint ./**/*.js || true",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TeemuKoivisto/simple-node-bootstrap.git"
+    "url": "git+https://github.com/madhaanr/meettime-back"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
