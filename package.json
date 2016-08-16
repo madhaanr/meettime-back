@@ -1,7 +1,7 @@
 {
   "name": "meettime-back",
-  "version": "0.0.1",
-  "description": "mini doodle clone",
+  "version": "0.0.2",
+  "description": "mini doodle clone backend",
   "main": "index.js",
   "engines": {
     "node": "6.3.1"
