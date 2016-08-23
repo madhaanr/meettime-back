@@ -19,11 +19,12 @@ class BaseModel {
   findOne(params) {
     return this.Models[this.modelname].findOne(params);
   }
-  update(values, id) {
+  update(id, values) {
     return this.Models[this.modelname].findByIdAndUpdate(id, { $set: values });
   }
   delete(params) {
-    return this.Models[this.modelname].find(params).remove();
+    return this.Models[this.modelname].findByIdAndRemove(params);
+    //return this.Models[this.modelname].find(params).remove();
   }
 }
 

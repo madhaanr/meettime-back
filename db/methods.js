@@ -27,11 +27,15 @@ module.exports.dropTables = () => {
 };
 
 module.exports.addTestData = () => Promise.all([
-  models.Item.create({
+  /*models.Item.create({
     content: "Something something",
   }),
   models.Item.create({
     content: "I'm a virus, press alt + f4 to stop me",
+  }),*/
+  models.Poll.create({
+    name: "Heppu",
+    poll_open_until: new Date(2016,11,25,10,25,30,0) 
   }),
   models.User.create({
     firstname: "Admin",
@@ -47,7 +51,7 @@ module.exports.addTestData = () => Promise.all([
     passwordHash: "$2a$10$Fs0N7KD/xUH4NAfW2s1MoOh/yH3G7mAtGycMY5tMUvCGqiWWdaSue",
     role: "user",
   }),
-])
+]);
 
 module.exports.dump = () => {
   return Promise.all(Object.keys(models).map(key => {
